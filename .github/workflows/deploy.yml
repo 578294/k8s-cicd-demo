@@ -1,0 +1,16 @@
+name: Deploy to Minikube
+on: [push]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t yourusername/flask-app:latest .
+          docker push atos5782/flask-app:latest
+
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f k8s-deployment.yaml
